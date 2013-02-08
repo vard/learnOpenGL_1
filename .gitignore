@@ -22,6 +22,8 @@ Binary
 *.pdb
 
 *.ncb
+*.cd
+*.ub
 
 Release/
 Debug/
