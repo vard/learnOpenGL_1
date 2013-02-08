@@ -11,3 +11,14 @@
 *.lai
 *.la
 *.a
+
+VS
+*.suo
+*.sln
+*.vcproj
+
+Binary
+*.exe
+*.pdb
+
+*.ncb
