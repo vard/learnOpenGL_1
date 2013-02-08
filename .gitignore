@@ -22,3 +22,6 @@ Binary
 *.pdb
 
 *.ncb
+
+Release/
+Debug/
