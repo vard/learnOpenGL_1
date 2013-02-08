@@ -23,7 +23,7 @@ Binary
 
 *.ncb
 *.cd
-*.ub
+*.user
 
 Release/
 Debug/
