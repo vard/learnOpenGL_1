@@ -1,26 +1,35 @@
 // lines.cpp: определяет точку входа для консольного приложения.
 //
 
+#ifdef _WIN32 || _WIN64
 #include "stdafx.h"
 #include "gl\glut.h"
+#include "gl\glew.h"
+#endif
 
-inline void drawOneLine(float x1,float y1, float x2, float y2){
+#ifdef __linux__
+#include "GL/glew.h"
+#include "GL/glut.h"
+#endif
+
+inline void drawOneLine(float x1, float y1, float x2, float y2) {
     glBegin(GL_LINES);
-    glVertex2f(x1,y1);
-    glVertex2f(x2,y2);
+    glVertex2f(x1, y1);
+    glVertex2f(x2, y2);
     glEnd();
 }
 
-void init(void){
+void init(void) {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glShadeModel(GL_FLAT);
 }
 
-void display(void){
+void display(void) {
+
     int i;
     glClear(GL_COLOR_BUFFER_BIT);
     // color
-    glColor3f(1.0,1.0,1.0);
+    glColor3f(1.0, 1.0, 1.0);
     glEnable(GL_LINE_STIPPLE);
     glLineStipple(1, 0x0101);
     drawOneLine(50.0, 125.0, 150.0, 125.0);
@@ -40,14 +49,14 @@ void display(void){
 
     glLineStipple(1, 0x1C47);
     glBegin(GL_LINE_STRIP);
-    for(i=0; i <7; i++){
-        glVertex2f(50.0+((GLfloat)i*50), 75.0);
+    for (i = 0; i < 7; i++) {
+        glVertex2f(50.0 + ((GLfloat) i * 50), 75.0);
     }
     glEnd();
 
-    for(i=0; i < 6; i++){
-        drawOneLine(50.0 + ((GLfloat)i*50.0), 50.0,
-            50.0 + ((GLfloat)(i+1)*50.0), 50);
+    for (i = 0; i < 6; i++) {
+        drawOneLine(50.0 + ((GLfloat) i * 50.0), 50.0,
+                50.0 + ((GLfloat) (i + 1)*50.0), 50);
     }
 
     glLineStipple(5, 0x1C47);
@@ -94,15 +103,17 @@ void display(void){
     glEnable(GL_POLYGON_STIPPLE);
     glRectd(20, 300, 150, 400);
     glDisable(GL_POLYGON_STIPPLE);
-    */
+     */
 
+    // glArrayElement
+    /*
     GLfloat vertices[18] = {
-        10.0, 12.0, 12.0,
-        30.0, 24.0, 10.0,
-        40.0, 36.0, 12.0,
-        50.0, 48.0, 10.0,
-        60.0, 60.0, 12.0,
-        70.0, 72.0, 10.0,
+        100.0, 200.0,
+        200.0, 324.0,
+        300.0, 336.0,
+        400.0, 248.0,
+        450.0, 360.0,
+        300.0, 272.0
     };
 
     GLfloat colors[18] = {
@@ -114,38 +125,81 @@ void display(void){
         0.0, 0.0, 1.0
     };
 
-
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glVertexPointer(3, GL_FLOAT, 0, colors);
-
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+    glColorPointer(3, GL_FLOAT, 0, colors);
+    
     glBegin(GL_TRIANGLES);
     glArrayElement(0);
-  /*  glArrayElement(2);
-    glArrayElement(4);*/
+    glArrayElement(2);
+    glArrayElement(4);
     glEnd();
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);*/
+
+    GLfloat vertices[26] = {
+        100.0, 200.0,
+        200.0, 324.0,
+        300.0, 336.0,
+        400.0, 248.0,
+        450.0, 360.0,
+        300.0, 272.0,
+        50.0, 100.0,
+        150.0, 50.0,
+        100.0, 248.0,
+        150.0, 360.0,
+        200.0, 272.0,
+        250.0, 100.0,
+        350.0, 50.0
+    };
+
+    static GLsizei count[] = {7, 6};
 
 
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, vertices);
+
+    static GLubyte oneIndices[] = {0, 1, 2, 3, 4, 5, 6};
+    static GLubyte twoIndices[] = {7, 1, 8, 9, 10, 11};
+
+    static GLvoid* indices[2] = {oneIndices, twoIndices};
+
+    // glDrawElements
+    // glDrawElements(GL_LINE_STRIP, 7, GL_UNSIGNED_BYTE, oneIndices);
+    // glDrawElements(GL_LINE_STRIP, 6, GL_UNSIGNED_BYTE, twoIndices);
+
+    // glMultiDrawElements
+    glMultiDrawElements(GL_LINE_STRIP, count, GL_UNSIGNED_BYTE, indices, 2);
 
     glFlush();
 }
 
-void reshape(int w, int h){
-    glViewport(0, 0, (GLsizei)w, (GLsizei)h);
+void reshape(int w, int h) {
+    glViewport(0, 0, (GLsizei) w, (GLsizei) h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(0.0, (GLdouble)w, 0.0, (GLdouble)h);
+    gluOrtho2D(0.0, (GLdouble) w, 0.0, (GLdouble) h);
 }
 
+
+
+#ifdef _WIN32 || _WIN64
+
 int _tmain(int argc, char** argv)
+#endif
+
+#ifdef __linux__
+int main(int argc, char** argv)
+#endif
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(500, 500);
-    glutInitWindowPosition(2000, 100);
+    //glutInitWindowPosition(2000, 100);
+    glutInitWindowPosition(200, 100);
     glutCreateWindow(argv[0]);
-    init();
+    //   init();
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutMainLoop();

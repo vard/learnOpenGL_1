@@ -25,5 +25,8 @@ Binary
 *.cd
 *.user
 
+.dep.inc
+Makefile
 Release/
 Debug/
+nbproject/
