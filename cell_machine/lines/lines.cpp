@@ -1,7 +1,14 @@
 // lines.cpp: определяет точку входа для консольного приложения.
 //
 
-#ifdef _WIN32 || _WIN64
+#include "stdafx.h"
+
+#if defined  _WIN32
+#include "gl\glew.h"
+#include "gl\glut.h"
+#endif
+
+#ifdef _WIN64
 #include "stdafx.h"
 #include "gl\glut.h"
 #include "gl\glew.h"
@@ -11,6 +18,7 @@
 #include "GL/glew.h"
 #include "GL/glut.h"
 #endif
+
 
 inline void drawOneLine(float x1, float y1, float x2, float y2) {
     glBegin(GL_LINES);
@@ -163,14 +171,20 @@ void display(void) {
     static GLubyte oneIndices[] = {0, 1, 2, 3, 4, 5, 6};
     static GLubyte twoIndices[] = {7, 1, 8, 9, 10, 11};
 
-    static GLvoid* indices[2] = {oneIndices, twoIndices};
+    //static const GLvoid* indices[2] = {oneIndices, twoIndices};
+    static const GLvoid* indices[1] = {oneIndices};
 
     // glDrawElements
     // glDrawElements(GL_LINE_STRIP, 7, GL_UNSIGNED_BYTE, oneIndices);
     // glDrawElements(GL_LINE_STRIP, 6, GL_UNSIGNED_BYTE, twoIndices);
 
     // glMultiDrawElements
-    glMultiDrawElements(GL_LINE_STRIP, count, GL_UNSIGNED_BYTE, indices, 2);
+    //glMultiDrawElements(GL_LINE_STRIP, count, GL_UNSIGNED_BYTE, indices, 2);
+    glMultiDrawElements(GL_LINE_STRIP, count, GL_UNSIGNED_BYTE, indices, 1);
+
+    GLenum err;
+    err = glGetError();
+    glDisableClientState(GL_VERTEX_ARRAY);
 
     glFlush();
 }
@@ -184,8 +198,10 @@ void reshape(int w, int h) {
 
 
 
-#ifdef _WIN32 || _WIN64
-
+#ifdef _WIN32
+int _tmain(int argc, char** argv)
+#endif
+#ifdef _WIN64
 int _tmain(int argc, char** argv)
 #endif
 
@@ -195,10 +211,11 @@ int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(500, 500);
-    //glutInitWindowPosition(2000, 100);
-    glutInitWindowPosition(200, 100);
+    glutInitWindowSize(600, 600);
+    glutInitWindowPosition(2000, 100);
+    //glutInitWindowPosition(200, 100);
     glutCreateWindow(argv[0]);
+    glewInit();
     //   init();
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
