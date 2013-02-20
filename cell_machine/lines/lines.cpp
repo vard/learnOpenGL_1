@@ -253,7 +253,7 @@ void display(void) {
 
 
     /********************************* glInterleavedArrays ************************************/
-    /*
+    
     GLfloat intertwined[] = {
         1.0, 0.2, 1.0, 100.0, 200.0, 0.0,
         0.5, 0.2, 1.0, 200.0, 324.0, 0.0,
@@ -274,7 +274,7 @@ void display(void) {
     GLint first = 0;
     GLsizei count  = 12;
     glDrawArrays(GL_TRIANGLES, first, count);
-    */
+    
 
     glFlush();
 }
