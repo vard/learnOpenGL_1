@@ -273,7 +273,7 @@ void display(void) {
 
 
     /********************************* glInterleavedArrays ************************************/
-    
+    /*
     GLfloat intertwined[] = {
     1.0, 0.2, 1.0, 100.0, 200.0, 0.0,
     0.5, 0.2, 1.0, 200.0, 324.0, 0.0,
@@ -293,7 +293,7 @@ void display(void) {
     glInterleavedArrays(GL_C3F_V3F, 0, intertwined);
     GLint first = 0;
     GLsizei count  = 12;
-    glDrawArrays(GL_TRIANGLES, first, count);
+    glDrawArrays(GL_TRIANGLES, first, count);*/
     
 
 #define  X 0.525731112119133606
@@ -367,7 +367,7 @@ int main(int argc, char** argv)
     //glutInitWindowPosition(200, 100);
     glutCreateWindow(argv[0]);
     glewInit();
-    //   init();
+       init();
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutMainLoop();
