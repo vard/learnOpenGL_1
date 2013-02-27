@@ -1,6 +1,5 @@
-// cube.cpp: определяет точку входа для консольного приложения.
+// cube_and_sphere.cpp: определяет точку входа для консольного приложения.
 //
-
 #include "stdafx.h"
 
 #if defined  _WIN32
@@ -20,30 +19,61 @@
 #include "GL/glut.h"
 #endif
 
+static float alpha = 0;
+
 void init(void){
     glClearColor(0.0, 0.0, 0.0, 0.0);
-    glShadeModel(GL_FLAT);
+    glShadeModel(GL_SMOOTH);
 }
 
 void display(void){
+    
+    float x = 0;
+    float z = 0;
+    float y = 0;
+    float radius = 2;
+
     glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f(1.0, 1.0, 1.0);
-    glLoadIdentity(); // очищение матрицы, сброс матрицы на единичную
-    gluLookAt(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0); // видовое преобразование
-    glRotatef(45.0, 1.0, 0.0, 0.0);
-    glScalef(1.0, 2.0, 1.0); // модельное преобразование, растягивает модель, в данном случае куб в 2 раза вдоль оси y, все у координаты увеличиваются в 2 раза
-    glutWireCube(1.0);
+    //glColor3f(1.0, 1.0, 1.0);
+    glColor3b(197, 96, 63);
+
+    glLoadIdentity();
+    
+
+    x = sin(alpha)*radius;
+    y = z = cos(alpha)*radius;
+    
+    
+    //gluOrtho2D(-1.5, 1.5, -5, 10);
+    
+    gluLookAt(x, y ,z, 0, 0, 0, 0, 1, 0);
+    
+    glutWireSphere(0.2, 20, 10);
+    glColor3b(242, 179, 61);
+    float cubeSide = (float)(0.4)*(float)sin((float)45);
+    glutWireCube(cubeSide);
+    
+  
     glFlush();
 }
 
 void reshape(int w, int h){
-    glViewport(0, 0, (GLsizei)w, (GLsizei)h);
+    glViewport(0, 0, (GLsizei) w, (GLsizei) h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-  //  glFrustum(-1.0, 1.0, -1.0, 1.0, 1.5, 20.0); // перспективная проекция
-    gluPerspective(40.0, 1.0, 0.5, 100);
+    glOrtho ((float)w/(float)h, (float)-w/(float)h, -1, 1, 0.8, 100);
     glMatrixMode(GL_MODELVIEW);
 }
+
+void idleFunc(void)
+{
+    alpha+=0.001;
+    if(alpha>=360)
+        alpha=0;
+    display();
+}
+
+
 
 #ifdef _WIN32
 int _tmain(int argc, char** argv)
@@ -66,7 +96,10 @@ int main(int argc, char** argv)
     init();
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
+    glutIdleFunc(idleFunc);
     glutMainLoop();
     return 0;
 }
+
+
 
