@@ -20,22 +20,28 @@
 #endif
 
 static float alpha = 0;
+float cubeSide = 0;
+float sinus = 0;
+
+#define PI  (3.14159265359)
 
 void init(void){
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glShadeModel(GL_SMOOTH);
 }
 
+void display(void);
 void display(void){
     
     float x = 0;
     float z = 0;
     float y = 0;
     float radius = 2;
+    
 
     glClear(GL_COLOR_BUFFER_BIT);
     //glColor3f(1.0, 1.0, 1.0);
-    glColor3b(197, 96, 63);
+    
 
     glLoadIdentity();
     
@@ -47,11 +53,14 @@ void display(void){
     //gluOrtho2D(-1.5, 1.5, -5, 10);
     
     gluLookAt(x, y ,z, 0, 0, 0, 0, 1, 0);
-    
-    glutWireSphere(0.2, 20, 10);
     glColor3b(242, 179, 61);
-    float cubeSide = (float)(0.4)*(float)sin((float)45);
-    glutWireCube(cubeSide);
+    sinus = sin((float)PI/4);
+    cubeSide = (float)(0.4)* sinus;
+    cubeSide =(float)0.4/sqrt((float)3);
+    glutSolidCube(cubeSide);
+    glColor3b(197, 96, 63);
+    glutWireSphere(0.2, 20, 10);
+    
     
   
     glFlush();
