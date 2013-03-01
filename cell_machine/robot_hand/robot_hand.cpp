@@ -1,6 +1,3 @@
-// robot_hand.cpp: определяет точку входа для консольного приложения.
-//
-
 #include "stdafx.h"
 
 #if defined  _WIN32
@@ -28,6 +25,8 @@ void init(void){
 
 static int shoulder = 30;
 static int elbow = 30;
+static int hand = 30;
+static int fingers[4] = {0,0,0};
 
 void display(void){
 
@@ -36,21 +35,65 @@ void display(void){
     glColor3f(1.0, 1.0, 1.0);
     glPushMatrix();
 
+    // shoulder
     glTranslatef(-1.0, 0.0, 0.0);
     glRotatef((GLfloat)shoulder, 0.0, 0.0, 1.0);
     glTranslatef(1.0, 0.0, 0.0);
-    glPushMatrix();
-    glScalef(2.0, 0.4, 1.0);
-    glutWireCube(1.0);
-    glPopMatrix();
-    glTranslatef(1.0, 0.0, 0.0);
-    glRotatef((GLfloat)elbow, 0.0, 0.0, 1.0);
-    glTranslatef(1.0, 0.0, 0.0);
+
     glPushMatrix();
     glScalef(2.0, 0.4, 1.0);
     glutWireCube(1.0);
     glPopMatrix();
 
+    glTranslatef(1.0, 0.0, 0.0);
+    glRotatef((GLfloat)elbow, 0.0, 0.0, 1.0);
+    glTranslatef(1.0, 0.0, 0.0);
+
+    glPushMatrix();
+    glScalef(2.0, 0.4, 1.0);
+    glutWireCube(1.0);
+    glPopMatrix();
+
+    glTranslatef(1.0, 0.0, 0.0);
+    glRotatef((GLfloat)hand, 0.0, 0.0, 1.0);
+    glTranslatef(0.25, 0.0, 0.0);
+
+    glPushMatrix();
+    glScalef(0.5, 0.4, 1.0);
+    glutWireCube(1.0);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.25, 0.1, -0.375);  
+    glRotatef((GLfloat)fingers[0], 0.0, 0.0, 1.0);
+    glTranslatef(0.25, 0.0, 0);
+    glScalef(0.5, 0.2, 0.25);
+    glutWireCube(1.0);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.25, 0.1, -0.125);  
+    glRotatef((GLfloat)fingers[1], 0.0, 0.0, 1.0);
+    glTranslatef(0.25, 0.0, 0);
+    glScalef(0.5, 0.2, 0.25);
+    glutWireCube(1.0);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.25, 0.1, 0.125);  
+    glRotatef((GLfloat)fingers[2], 0.0, 0.0, 1.0);
+    glTranslatef(0.25, 0.0, 0);
+    glScalef(0.5, 0.2, 0.25);
+    glutWireCube(1.0);
+    glPopMatrix();
+
+    glPushMatrix();
+    glTranslatef(0.25, 0.1, 0.375);  
+    glRotatef((GLfloat)fingers[3], 0.0, 0.0, 1.0);
+    glTranslatef(0.25, 0.0, 0);
+    glScalef(0.5, 0.2, 0.25);
+    glutWireCube(1.0);
+    glPopMatrix();
 
     glPopMatrix();
     glFlush();
@@ -87,6 +130,46 @@ void keyboard(unsigned char key, int x, int y){
             break;
         case 'E':
             elbow = (elbow - 5) % 360;
+            glutPostRedisplay();
+            break;
+        case 'h':
+            hand = (hand + 5) % 360;
+            glutPostRedisplay();
+            break;
+        case 'H':
+            hand = (hand - 5) % 360;
+            glutPostRedisplay();
+            break;
+        case 'z':
+            fingers[3] = (fingers[3]+ 5) % 360;
+            glutPostRedisplay();
+            break;
+        case 'Z':
+            fingers[3] = (fingers[3] - 5) % 360;
+            glutPostRedisplay();
+            break;
+        case 'x':
+            fingers[2] = (fingers[2] + 5) % 360;
+            glutPostRedisplay();
+            break;
+        case 'X':
+            fingers[2] = (fingers[2] - 5) % 360;
+            glutPostRedisplay();
+            break;
+        case 'c':
+            fingers[1] = (fingers[1] + 5) % 360;
+            glutPostRedisplay();
+            break;
+        case 'C':
+            fingers[1] = (fingers[1] - 5) % 360;
+            glutPostRedisplay();
+            break;
+        case 'v':
+            fingers[0] = (fingers[0] + 5) % 360;
+            glutPostRedisplay();
+            break;
+        case 'V':
+            fingers[0] = (fingers[0] - 5) % 360;
             glutPostRedisplay();
             break;
 
