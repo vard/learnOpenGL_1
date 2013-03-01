@@ -20,15 +20,28 @@
 #endif
 
 static float alpha = 0;
-float cubeSide = 0;
-float sinus = 0;
 
-#define PI  (3.14159265359)
+
+#define PI                (3.14159265359)
+#define SPHERE_RADIUS              (0.09)
 
 void init(void){
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glShadeModel(GL_SMOOTH);
 }
+
+void drawSphere(float centerX, float centerY, float centerZ, float radius){
+    glPushMatrix(); 
+    glTranslatef(centerX, centerY, centerZ);
+    glutWireSphere(radius, 20, 10);
+    //glutSolidSphere(radius, 20, 10);
+    glPopMatrix(); 
+}
+
+/*
+float debug_rad;
+float debus_sin;
+float debug_cos;*/
 
 void display(void);
 void display(void){
@@ -36,49 +49,57 @@ void display(void){
     float x = 0;
     float z = 0;
     float y = 0;
-    float radius = 2;
-    
-
+    float cameraRotationRadius = 5;
+    float cubeSide = 0;
+    float sphereRad = SPHERE_RADIUS;
+        
     glClear(GL_COLOR_BUFFER_BIT);
-    //glColor3f(1.0, 1.0, 1.0);
-    
+    glLoadIdentity();   
 
-    glLoadIdentity();
-    
+    // calculate camera position  
+    /*debus_sin = sin(alpha);
+    debug_cos = cos(alpha);*/
+    x = cos(alpha)*cameraRotationRadius;
+    z = sin(alpha)*cameraRotationRadius;
+    //y = cos(alpha)*cameraRotationRadius;
+    //debug_rad=sqrt(x*x+z*z);
+    gluLookAt(x, y ,z, 0, 0, 0, 0, 1, 0); // view matrix
 
-    x = sin(alpha)*radius;
-    y = z = cos(alpha)*radius;
-    
-    
-    //gluOrtho2D(-1.5, 1.5, -5, 10);
-    
-    gluLookAt(x, y ,z, 0, 0, 0, 0, 1, 0);
+    glPushMatrix(); 
+
+    // draw cube in the origin
     glColor3b(242, 179, 61);
-    sinus = sin((float)PI/4);
-    cubeSide = (float)(0.4)* sinus;
     cubeSide =(float)0.4/sqrt((float)3);
-    glutSolidCube(cubeSide);
-    glColor3b(197, 96, 63);
-    glutWireSphere(0.2, 20, 10);
-    
-    
-  
+    // glutSolidCube(cubeSide);
+
+    // draw sphere
+    glColor3b(197, 96, 63);  
+    drawSphere(0, 0, 0, sphereRad);
+
+    /*
+    for(int i = 0; i < 10; i++){
+        for(int j = 0; j < 10; j++){
+           drawSphere((float)sphereRad*2*i-(float)sphereRad*2*5, (float)sphereRad*2*j-(float)sphereRad*2*5, 0, sphereRad);
+        }
+    }*/
     glFlush();
 }
 
+float fovy = 0;
 void reshape(int w, int h){
+ //   float fovy = 0;
     glViewport(0, 0, (GLsizei) w, (GLsizei) h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho ((float)w/(float)h, (float)-w/(float)h, -1, 1, 0.8, 100);
+    //glOrtho ((float)w/(float)h, (float)-w/(float)h, -1, 1, 0.8, 100);
+    fovy = 180*2*atan((SPHERE_RADIUS/5))/PI;
+    gluPerspective((float)fovy, (float)w/(float)h, 0.1, 5);
     glMatrixMode(GL_MODELVIEW);
 }
 
 void idleFunc(void)
 {
     alpha+=0.001;
-    if(alpha>=360)
-        alpha=0;
     display();
 }
 
