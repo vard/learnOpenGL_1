@@ -27,7 +27,7 @@ void init(void){
 }
 
 
-void drawplanet(float orbitRadius, float planetRadius, float daysInYear, float hoursInDay){
+void drawLuna(float orbitRadius, float planetRadius, float daysInYear, float hoursInDay){
     static float year = 0;
     static float days = 0;
     static float hours = 0;
@@ -36,6 +36,22 @@ void drawplanet(float orbitRadius, float planetRadius, float daysInYear, float h
     glTranslatef(orbitRadius, 0 ,0);
     glRotatef(days, 0, 1, 0);
     glutWireSphere(planetRadius, 20, 16);
+    glPopMatrix();
+    hours++;
+    days = hours/hoursInDay;
+    year=days/daysInYear;
+}
+
+void drawPlanet(float orbitRadius, float planetRadius, float daysInYear, float hoursInDay){
+    static float year = 0;
+    static float days = 0;
+    static float hours = 0;
+    glPushMatrix();
+    glRotatef(year, 0, 1, 0);
+    glTranslatef(orbitRadius, 0 ,0);
+    glRotatef(days, 1, 2, 0);
+    glutWireSphere(planetRadius, 20, 16);
+    drawLuna(0.3, 0.1, 30, 15);
     glPopMatrix();
     hours++;
     days = hours/hoursInDay;
@@ -51,8 +67,8 @@ void display(void){
     glLoadIdentity();
     gluLookAt(0,0,5, 0, 0, 0, 0 ,1, 0);
     glColor3b(197, 96, 63);  
-    drawplanet(2, 0.2, 50, 12);
-    drawplanet(1, 0.15, 30, 15);
+    drawPlanet(2, 0.2, 50, 12);
+    drawPlanet(1, 0.15, 30, 15);
    // drawplanet(3, 0.3, 20, 24);
    // drawplanet(5, 0.4, 30, 10);
     glColor3f(1.0, 0.647059, 0.00);
