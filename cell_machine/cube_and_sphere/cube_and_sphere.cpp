@@ -1,4 +1,4 @@
-// cube_and_sphere.cpp: определяет точку входа для консольного приложения.
+// cube_and_sphere.cpp: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
 //
 #include "stdafx.h"
 
@@ -12,11 +12,13 @@
 #include "stdafx.h"
 #include "gl\glut.h"
 #include "gl\glew.h"
+#include <cmath>
 #endif
 
 #ifdef __linux__
 #include "GL/glew.h"
 #include "GL/glut.h"
+#include <cmath>
 #endif
 
 static float alpha = 0;
@@ -119,7 +121,7 @@ int main(int argc, char** argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(600, 600);
-    glutInitWindowPosition(2000, 100);
+    glutInitWindowPosition(100, 100);
     //glutInitWindowPosition(200, 100);
     glutCreateWindow(argv[0]);
     glewInit();
