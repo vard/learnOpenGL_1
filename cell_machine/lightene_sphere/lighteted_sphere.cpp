@@ -23,7 +23,8 @@
 void init(void){
     GLfloat mat_specular[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat mat_shininess[] = {50.0};
-    GLfloat light_position[] = {1.0, 1.0, 1.0, 0.0};
+    GLfloat light_position[] = {2.0, 2.0, 2.0, 0.0};
+    GLfloat light_ambient[] = {0.0, 0.0, 1.0, 1.0};
     GLfloat white_light[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat lmodel_ambient[] = {0.1, 0.1, 0.1, 1.0};
     glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -31,20 +32,42 @@ void init(void){
     glEnable(GL_DEPTH_TEST);
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
     glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+   //Lightfv(GL_LIGHT0, GL_SPECULAR, light_ambient);
     glLightfv(GL_LIGHT0, GL_POSITION, light_position);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, white_light);
     glLightfv(GL_LIGHT0, GL_SPECULAR, white_light);
+
+    // 2nd lamp
+    GLfloat light1_ambient[] = {0.2, 0.2, 0.2, 1.0};
+    GLfloat light1_diffuse[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat light1_specular[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat light1_position[] = {-1.0, 0.0, -1.0, 1.0};
+    GLfloat spot_direction[] = {1.0, 0.0, 1.0};           // Это вектор направления света, а не точка куда он будет направлен
+
+    glLightfv(GL_LIGHT1, GL_AMBIENT, light1_ambient);     // Цвет фонового освещения
+    glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);     // Цвет рассеяного освещения
+    glLightfv(GL_LIGHT1, GL_SPECULAR, light1_specular);   // Цвет отраженного света
+    glLightfv(GL_LIGHT1, GL_POSITION, light1_position);   // Координаты источника света
+    glLightf(GL_LIGHT1, GL_CONSTANT_ATTENUATION, 1.5);    // Ослабление интенсивности света вне зависимости от направления и расстояния
+    glLightf(GL_LIGHT1, GL_LINEAR_ATTENUATION, 0.5);      // Линейное ослабление интенсивности света
+    glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 0.2);   // Квадратичное затухание света
+
+    glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 45.0);               // Угол разброса световых лучей
+    glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot_direction); // Направление распространения света
+    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 2.0);              // Распределение интенсивности светового пучка по экспоненте
+
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
+    glEnable(GL_LIGHT1);
     glEnable(GL_DEPTH_TEST);
 }
 
 
 void display(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    glutSolidSphere(1.0, 20, 16);
+    glutSolidSphere(1.0, 100, 50);
     glFlush();
 }
 
