@@ -38,8 +38,8 @@ void init(void){
     glLightfv(GL_LIGHT0, GL_SPECULAR, white_light);
 
     // 2nd lamp
-    GLfloat light1_ambient[] = {0.2, 0.2, 0.2, 1.0};
-    GLfloat light1_diffuse[] = {1.0, 1.0, 1.0, 1.0};
+    GLfloat light1_ambient[] = {1.0, 0.0, 0.0, 1.0};
+    GLfloat light1_diffuse[] = {1.0, 1.0, 0.0, 1.0};
     GLfloat light1_specular[] = {1.0, 1.0, 1.0, 1.0};
     GLfloat light1_position[] = {-1.0, 0.0, -1.0, 1.0};
     GLfloat spot_direction[] = {1.0, 0.0, 1.0};           // Это вектор направления света, а не точка куда он будет направлен
@@ -54,13 +54,14 @@ void init(void){
 
     glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 45.0);               // Угол разброса световых лучей
     glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot_direction); // Направление распространения света
-    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 2.0);              // Распределение интенсивности светового пучка по экспоненте
+    glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 10.0);              // Распределение интенсивности светового пучка по экспоненте
 
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+    glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    glEnable(GL_LIGHT1);
+   // glEnable(GL_LIGHT1);
     glEnable(GL_DEPTH_TEST);
 }
 
@@ -76,9 +77,9 @@ void reshape(int w, int h){
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     if(w<=h)
-        glOrtho(-1.5, 1.5, -1.5*(GLfloat)h/(GLfloat)w, 1.5*(GLfloat)h/(GLfloat)w, 10, 10 );
+        glOrtho(-1.5, 1.5, -1.5*(GLfloat)h/(GLfloat)w, 1.5*(GLfloat)h/(GLfloat)w, -10, 10 );
     else
-        glOrtho(-1.5*(GLfloat)w/(GLfloat)h, -1.5*(GLfloat)w/(GLfloat)h, -1.5, 1.5, 10, 10 );
+        glOrtho(-1.5*(GLfloat)w/(GLfloat)h, -1.5*(GLfloat)w/(GLfloat)h, -1.5, 1.5, -10, 10 );
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 }
