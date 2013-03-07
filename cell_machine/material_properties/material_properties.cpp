@@ -54,17 +54,26 @@ void display(void){
 
     glPushMatrix();
     glTranslatef(1.25, -3.0, 0.0);
+    
+    // Внешняя поверхность
     glMaterialfv(GL_FRONT, GL_AMBIENT, no_mat);          // фоновый цвет материала
     glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);     // Рассеянный цвет материала
     glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);   // Отраженный цвет материала
     glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);// Коэффициент зеркального отражения
     glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);         // Излучаемый цвет материала
 
-    glMaterialfv(GL_BACK, GL_AMBIENT, mat_back);         // фоновый цвет материала
-    glMaterialfv(GL_BACK, GL_DIFFUSE, mat_ambient_back); // Рассеянный цвет материала
+    // Внутренняя поверхность    
+    glColorMaterial(GL_BACK, GL_DIFFUSE);
+    glEnable(GL_COLOR_MATERIAL);
+    glColor3f(0.1, 0.1, 0.3);
+    glDisable(GL_COLOR_MATERIAL);
+
+    glMaterialfv(GL_BACK, GL_AMBIENT, mat_back);         // фоновый цвет материал
+    //glMaterialfv(GL_BACK, GL_DIFFUSE, mat_ambient_back); // Рассеянный цвет материала
     glMaterialfv(GL_BACK, GL_SPECULAR, mat_specular);    // Отраженный цвет материала
     glMaterialfv(GL_BACK, GL_SHININESS, high_shininess); // Коэффициент зеркального отражения
     glMaterialfv(GL_BACK, GL_EMISSION, no_mat);          // Излучаемый цвет материала
+
     glutSolidSphere(3.5, 16, 16);
     glPopMatrix();
     glDisable(GL_CLIP_PLANE0);
