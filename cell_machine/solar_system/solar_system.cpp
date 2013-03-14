@@ -1,10 +1,10 @@
 // solar_system.cpp: 
 //
-#include "stdafx.h"
-#include <cmath>
+
 
 #if defined  _WIN32
-
+#include "stdafx.h"
+#include <cmath>
 #include "gl\glew.h"
 #include "gl\glut.h"
 #endif
@@ -25,6 +25,16 @@
 
 void init(void){
     glClearColor(0.0, 0.0, 0.0, 0.0);
+
+    glEnable(GL_LINE_SMOOTH);
+    glEnable(GL_POLYGON_SMOOTH);
+    glEnable(GL_POINT_SMOOTH);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // для сглаживания надо включать
+    glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);  // качество сглаживания линий,  требования к качеству 
+    glHint(GL_POLYGON_SMOOTH, GL_NICEST);  // качество сглаживания линий, требования к качеству
+    glHint(GL_POINT_SMOOTH, GL_NICEST);  // качество сглаживания линий, требования к качеству
+
     glShadeModel(GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);
 }
