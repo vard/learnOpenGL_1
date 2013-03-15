@@ -1,10 +1,10 @@
 // solar_system.cpp: 
 //
-
-
-#if defined  _WIN32
 #include "stdafx.h"
 #include <cmath>
+
+#if defined  _WIN32
+
 #include "gl\glew.h"
 #include "gl\glut.h"
 #endif
