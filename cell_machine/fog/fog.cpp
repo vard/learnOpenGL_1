@@ -48,11 +48,11 @@ void init(void){
         glFogf(GL_FOG_DENSITY, 0.35);
         glHint(GL_FOG_HINT, GL_DONT_CARE);
         glFogf(GL_FOG_START, 1.0);
-        glFogf(GL_FOG_END, 5.0);
+        glFogf(GL_FOG_END, 2.0);
     }
 
 
-    glClearColor(0.5, 0.5, 0.5, 1.0); // fog color
+    glClearColor(0.5, 0.5, 0.5, 1.0); // same as fog color
 }
 
 static void renderSphere(GLfloat x, GLfloat y, GLfloat z){
